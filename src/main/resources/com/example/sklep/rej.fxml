@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.RejestracjaController">
+   <children>
+      <AnchorPane focusTraversable="true" prefHeight="400.0" prefWidth="412.0" style="-fx-background-color: #2934;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="133.0" prefWidth="601.0" text="REJESTRACJA " textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="66.0" layoutY="133.0" text="NAZWA UŻYTKOWNIKA ">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="107.0" layoutY="183.0" prefHeight="72.0" prefWidth="50.0" text="HASŁO ">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tf_password" layoutX="301.0" layoutY="204.0" prefHeight="0.0" prefWidth="201.0" />
+            <TextField fx:id="tf_username" layoutX="301.0" layoutY="129.0" prefHeight="25.0" prefWidth="201.0" />
+            <Button fx:id="btn_rejestracja" layoutX="252.0" layoutY="264.0" mnemonicParsing="false" onAction="#rejestracjaButtonClicked" prefHeight="0.0" prefWidth="125.0" style="-fx-background-color: #FFFDD0;" text="RESESTRACJA ">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn_login" layoutX="252.0" layoutY="315.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="0.0" prefWidth="125.0" style="-fx-background-color: #FFFDD0;" text="BACK TO LOGIN" wrapText="true">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Button>
+            <Label fx:id="btn_email" layoutX="107.0" layoutY="141.0" prefHeight="92.0" prefWidth="103.0" text="EMAIL">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tf_email" layoutX="301.0" layoutY="172.0" prefHeight="25.0" prefWidth="201.0" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="410.0" layoutY="227.0" prefHeight="17.0" prefWidth="58.0" />
+   </children>
+</AnchorPane>

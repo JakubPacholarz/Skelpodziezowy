@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2934;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.pracownicyController">
+    <children>
+        <Label layoutX="187.0" layoutY="42.0" text="Pracownicy " />
+        <Label layoutX="264.0" layoutY="42.0" text="Magazyn" />
+        <Label layoutX="327.0" layoutY="42.0" text="Zadania" />
+        <Label layoutX="381.0" layoutY="42.0" text="Dostawcy " />
+        <Label id="label_skelp" layoutX="33.0" layoutY="42.0" prefHeight="17.0" prefWidth="186.0" text="SUPER SKELP">
+            <font>
+                <Font name="Arial Black" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="444.0" layoutY="42.0" text="Dostawcy " />
+        <Button id="btn_logout" layoutX="465.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" style="-fx-background-color: #FFFDD0;" text="WYLOGUJ SIĘ ">
+            <font>
+                <Font name="Arial Black" size="12.0" />
+            </font>
+        </Button>
+        <GridPane layoutX="111.0" layoutY="108.0" prefHeight="214.0" prefWidth="372.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label fx:id="label1" text="Label" />
+                <Label text="Label" GridPane.rowIndex="1" />
+                <Label text="Label" GridPane.rowIndex="2" />
+                <Label text="Label" GridPane.columnIndex="1" />
+                <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            </children>
+        </GridPane>
+        <Button fx:id="connect_btn" layoutX="315.0" layoutY="361.0" mnemonicParsing="false" onAction="#connect_btn" text="POKAŻ " >
+            <font>
+                <Font name="Arial Black" size="12.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>
