@@ -13,6 +13,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javafx.scene.control.Label;
+
 
 public class RejestracjaController {
 
@@ -23,7 +25,7 @@ public class RejestracjaController {
     private TextField tf_password;
 
     @FXML
-    private TextField tf_email; // Dodaj pole dla pola email
+    private TextField tf_email;
 
     @FXML
     private Button btn_rejestracja;
@@ -32,16 +34,21 @@ public class RejestracjaController {
     private Button btn_login;
 
     @FXML
+    private Label lbl_errorMessage;
+
+    @FXML
     void rejestracjaButtonClicked(ActionEvent event) {
-        // Pobierz dane z formularza
         String username = tf_username.getText();
         String password = tf_password.getText();
-        String email = tf_email.getText(); // Pobierz wartość pola email z formularza
+        String email = tf_email.getText();
 
-        // Dodaj dane do bazy danych
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            lbl_errorMessage.setText("Wszystkie pola są wymagane!");
+            return;
+        }
+
         boolean registrationSuccessful = addRegistrationToDatabase(username, email, password);
 
-        // Jeśli rejestracja zakończyła się powodzeniem, wróć do strony logowania
         if (registrationSuccessful) {
             goToLoginPage();
         }
@@ -49,7 +56,6 @@ public class RejestracjaController {
 
     @FXML
     void loginButtonClicked(ActionEvent event) {
-        // Wróć do strony logowania
         goToLoginPage();
     }
 
@@ -62,10 +68,10 @@ public class RejestracjaController {
             statement.setString(3, password);
             statement.executeUpdate();
             conn.close();
-            return true; // Zwróć true, jeśli rejestracja zakończyła się powodzeniem
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // Zwróć false w przypadku błędu rejestracji
+            return false;
         }
     }
 

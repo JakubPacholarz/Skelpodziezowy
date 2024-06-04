@@ -5,50 +5,58 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.LoginController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.LoginController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #2934;">
          <children>
-            <ImageView fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="181.0" fitWidth="159.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../owl.png" />
                </image>
             </ImageView>
-            <Label layoutX="27.0" layoutY="200.0" prefHeight="43.0" prefWidth="128.0" text="MOŻNA PIWKO " />
-            <Label layoutX="26.0" layoutY="243.0" prefHeight="43.0" prefWidth="149.0" text="JA POLAKIEM JESTEM " />
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="400.0" prefWidth="414.0">
+      <AnchorPane prefHeight="400.0" prefWidth="411.0">
          <children>
-            <Label layoutX="144.0" layoutY="137.0" prefHeight="43.0" prefWidth="117.0" text="Zaloguj sie bracie" />
-            <Label layoutX="105.0" layoutY="179.0" prefHeight="43.0" prefWidth="196.0" text="NAZWA UŻYTKOWNIKA">
+            <Label layoutX="140.0" layoutY="137.0" prefHeight="35.0" prefWidth="101.0" text="Zaloguj się">
+               <font>
+                  <Font name="Arial Black" size="16.0" />
+               </font>
+               <style>
+                  -fx-font-weight: bold;
+               </style>
+            </Label>
+            <Label layoutX="165.0" layoutY="200.0" prefHeight="25.0" prefWidth="59.0" text="EMAIL:">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="151.0" layoutY="247.0" prefHeight="43.0" prefWidth="104.0" text="HASŁO">
+            <Label layoutX="165.0" layoutY="265.0" prefHeight="25.0" prefWidth="59.0" text="HASŁO:">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
             <TextField fx:id="tf_username" layoutX="120.0" layoutY="222.0" />
             <TextField fx:id="tf_password" layoutX="120.0" layoutY="290.0" />
-            <Button fx:id="btn_login" layoutX="169.0" layoutY="334.0" mnemonicParsing="false" style="-fx-background-color: #2934;" text="LOG" onAction="#loginButtonClicked">
+            <Button fx:id="btn_login" layoutX="154.0" layoutY="334.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="25.0" prefWidth="74.0" style="-fx-background-color: #2934;" text="LOGIN">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Button>
-            <Label layoutX="17.0" layoutY="59.0" prefHeight="43.0" prefWidth="135.0" text="ZAJERESTRUJ SIE ">
+            <Label fx:id="lbl_errorMessage" layoutX="126.0" layoutY="100.0" prefHeight="43.0" prefWidth="218.0" textFill="red" />
+
+            <Label layoutX="50.0" layoutY="59.0" prefHeight="43.0" prefWidth="134.0" text="ZAJERESTRUJ SIE ">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="bt_rejestracja" layoutX="165.0" layoutY="68.0" mnemonicParsing="false" style="-fx-background-color: #2934;" text="REJESTRACJA" onAction="#registerButtonClicked">
+            <Button fx:id="bt_rejestracja" layoutX="205.0" layoutY="68.0" mnemonicParsing="false" onAction="#registerButtonClicked" prefHeight="25.0" prefWidth="121.0" style="-fx-background-color: #2934;" text="REJESTRACJA">
 
             <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Button>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
          </children>
       </AnchorPane>

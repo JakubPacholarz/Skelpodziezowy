@@ -16,6 +16,6 @@ public class HelloController {
     }
     @FXML
     protected void onClickMeButton() {
-        ClickMeLabel.setText("Hi NIGGA!");
+        ClickMeLabel.setText("");
     }
 }

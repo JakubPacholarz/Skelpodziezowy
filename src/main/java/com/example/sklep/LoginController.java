@@ -3,6 +3,7 @@ package com.example.sklep;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,6 +30,9 @@ public class LoginController {
     private Button bt_rejestracja;
 
     @FXML
+    private Label lbl_errorMessage; // Dodajemy etykietę do wyświetlania komunikatu o błędzie
+
+    @FXML
     void loginButtonClicked(ActionEvent event) {
         String username = tf_username.getText();
         String password = tf_password.getText();
@@ -43,15 +47,13 @@ public class LoginController {
                 e.printStackTrace();
             }
         } else {
-            // Wyświetl komunikat o błędnych danych logowania
-            System.out.println("Błędny login lub hasło!");
+            // Ustawiamy tekst etykiety na komunikat o błędzie
+            lbl_errorMessage.setText("Błędny login lub hasło!");
         }
     }
 
     @FXML
     void registerButtonClicked(ActionEvent event) {
-        // Tutaj dodaj logikę rejestracji
-        // Na przykład: przejdź do strony rejestracji
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("rej.fxml"));
             Parent root = loader.load();
@@ -69,10 +71,10 @@ public class LoginController {
             statement.setString(1, username);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
-            return resultSet.next(); // Zwróć true jeśli dane są poprawne, w przeciwnym razie false
+            return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // Jeśli wystąpił błąd, zwróć false
+            return false;
         }
     }
 
