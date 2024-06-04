@@ -35,7 +35,7 @@ public class mainpageController {
     void initialize() {
         // Dodajemy obsługę zdarzenia dla każdej etykiety
         label_pracownicy.setOnMouseClicked(event -> goToPage("pracownicy.fxml"));
-        label_magazyn.setOnMouseClicked(event -> goToPage("magazyn.fxml"));
+        label_magazyn.setOnMouseClicked(event -> goToPage1("magazyn.fxml"));
         label_zadania.setOnMouseClicked(event -> goToPage("zadania.fxml"));
         label_dostawcy.setOnMouseClicked(event -> goToPage("dostawcy.fxml"));
         label_dostawcy2.setOnMouseClicked(event -> goToPage("dostawcy.fxml"));
@@ -60,7 +60,17 @@ public class mainpageController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("pracownicy.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            Stage stage = (Stage) label_pracownicy.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void goToPage1(String magazyn) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("magazyn.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) label_magazyn.getScene().getWindow();
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
