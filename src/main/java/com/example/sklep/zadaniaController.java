@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -57,6 +58,9 @@ public class zadaniaController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        columnImie.setCellValueFactory(new PropertyValueFactory<Employee, String>("imie"));
+        columnNazwisko.setCellValueFactory(new PropertyValueFactory<Employee, String>("nazwisko"));
+
     }
 
     @FXML
