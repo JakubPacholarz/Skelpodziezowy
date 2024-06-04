@@ -26,7 +26,7 @@ public class mainpageController {
     private Label label_dostawcy;
 
     @FXML
-    private Label label_dostawcy2;
+    private Label label_informacje;
 
     @FXML
     private Button logoutButton;
@@ -36,9 +36,9 @@ public class mainpageController {
         // Dodajemy obsługę zdarzenia dla każdej etykiety
         label_pracownicy.setOnMouseClicked(event -> goToPage("pracownicy.fxml"));
         label_magazyn.setOnMouseClicked(event -> goToPage1("magazyn.fxml"));
-        label_zadania.setOnMouseClicked(event -> goToPage("zadania.fxml"));
+        label_zadania.setOnMouseClicked(event -> goToPage2("zadania.fxml"));
         label_dostawcy.setOnMouseClicked(event -> goToPage("dostawcy.fxml"));
-        label_dostawcy2.setOnMouseClicked(event -> goToPage("dostawcy.fxml"));
+        label_informacje.setOnMouseClicked(event -> goToPage4("informacje.fxml"));
     }
     @FXML
     void logoutButtonClicked(ActionEvent event) {
@@ -76,5 +76,24 @@ public class mainpageController {
             e.printStackTrace();
         }
     }
-
+    private void goToPage4(String informcje) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("informacje.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) label_informacje.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void goToPage2(String zadania) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("zadania.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) label_zadania.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

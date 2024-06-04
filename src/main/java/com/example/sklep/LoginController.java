@@ -30,12 +30,12 @@ public class LoginController {
     private Button bt_rejestracja;
 
     @FXML
-    private Label lbl_errorMessage; // Dodajemy etykietę do wyświetlania komunikatu o błędzie
+    private Label lbl_errorMessage;
 
     @FXML
     void loginButtonClicked(ActionEvent event) {
         String username = tf_username.getText();
-        String password = tf_password.getText();
+        String password = tf_password.getText(); // Haszowanie hasła
 
         if (checkCredentials(username, password)) {
             try {
@@ -47,7 +47,6 @@ public class LoginController {
                 e.printStackTrace();
             }
         } else {
-            // Ustawiamy tekst etykiety na komunikat o błędzie
             lbl_errorMessage.setText("Błędny login lub hasło!");
         }
     }
@@ -65,17 +64,23 @@ public class LoginController {
     }
 
     private boolean checkCredentials(String username, String password) {
-        String query = "SELECT * FROM users WHERE email = ? AND password = ?";
+        String query = "SELECT * FROM users WHERE email = ?";
         try (Connection connection = new DatabaseConnection().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
-            statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
-            return resultSet.next();
+            if (resultSet.next()) {
+                // Jeśli użytkownik istnieje, pobierz hasło z bazy danych
+                String passwordFromDatabase = resultSet.getString("password");
+                // Porównaj hasło wprowadzone przez użytkownika z hasłem z bazy danych
+                return password.equals(passwordFromDatabase);
+            } else {
+                // Jeśli nie ma użytkownika o podanym adresie email, zwróć false
+                return false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
-
 }
