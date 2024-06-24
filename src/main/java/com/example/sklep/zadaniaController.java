@@ -6,15 +6,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -58,9 +58,13 @@ public class zadaniaController implements Initializable {
     @FXML
     private TableColumn<Employee, String> columnTask; // Kolumna z zadaniem
 
-    private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
+    private static ObservableList<Employee> employeeList = FXCollections.observableArrayList();
     private ObservableList<String> zadaniaList = FXCollections.observableArrayList();
     private StringProperty selectedTask = new SimpleStringProperty(""); // Pole do przechowywania wybranego zadania
+
+    public static ObservableList<Employee> getEmployeeList() {
+        return employeeList;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

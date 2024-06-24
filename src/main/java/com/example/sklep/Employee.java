@@ -4,6 +4,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.Duration;
@@ -20,6 +22,7 @@ public class Employee {
     private int seconds;
     private boolean taskCompleted;
     private StringProperty selectedTask; // Wybrane zadanie przez pracownika
+    private ObservableList<Task> selectedTasks = FXCollections.observableArrayList(); // Lista wybranych zadań
 
     public Employee(String imie, String nazwisko) {
         this.imie = new SimpleStringProperty(imie);
@@ -117,6 +120,12 @@ public class Employee {
             taskCompleted = true;
             showTaskCompletedAlert();
             buttonLabel.set("Ukończone");
+
+            // Dodaj wykonane zadanie do listy
+            if (selectedTask.get() != null && !selectedTask.get().isEmpty()) {
+                Task completedTask = new Task(selectedTask.get(), getTotalSeconds());
+                selectedTasks.add(completedTask);
+            }
         }
     }
 
@@ -133,5 +142,23 @@ public class Employee {
         alert.setHeaderText(null);
         alert.setContentText("Zadanie dla " + getImie() + " " + getNazwisko() + " zakończone.");
         alert.showAndWait();
+    }
+
+    public int getTotalSeconds() {
+        return hours * 3600 + minutes * 60 + seconds;
+    }
+
+    // Methods for handling selected tasks
+
+    public ObservableList<Task> getSelectedTasks() {
+        return selectedTasks;
+    }
+
+    public void addSelectedTask(Task task) {
+        selectedTasks.add(task);
+    }
+
+    public void removeSelectedTask(Task task) {
+        selectedTasks.remove(task);
     }
 }

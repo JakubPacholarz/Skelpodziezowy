@@ -43,7 +43,7 @@ public class mainpageController {
         label_pracownicy.setOnMouseClicked(event -> goToPage("pracownicy.fxml"));
         label_magazyn.setOnMouseClicked(event -> goToPage1("magazyn.fxml"));
         label_zadania.setOnMouseClicked(event -> goToPage2("zadania.fxml"));
-        label_dostawcy.setOnMouseClicked(event -> goToPage("dostawcy.fxml"));
+        label_dostawcy.setOnMouseClicked(event -> goToPage3("podsumowanie.fxml"));
         label_informacje.setOnMouseClicked(event -> goToPage4("informacje.fxml"));
     }
 
@@ -132,6 +132,17 @@ public class mainpageController {
         try {
             // Ładowanie widoku zadań
             FXMLLoader loader = new FXMLLoader(getClass().getResource("zadania.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) label_zadania.getScene().getWindow();
+            stage.setScene(new Scene(root)); // Ustawienie nowej sceny
+        } catch (IOException e) {
+            e.printStackTrace(); // Obsługa wyjątków IO
+        }
+    }
+    private void goToPage3(String podsumowanie) {
+        try {
+            // Ładowanie widoku zadań
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("podsumowanie.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) label_zadania.getScene().getWindow();
             stage.setScene(new Scene(root)); // Ustawienie nowej sceny
