@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2934;"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.sklep.zadaniaController">
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2934;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.zadaniaController">
     <children>
-        <Label fx:id="label_sklep" layoutX="33.0" layoutY="42.0" onMouseClicked="#goToMainPage" prefHeight="17.0" prefWidth="186.0"
-               text="STRONA GŁÓWNA">
+        <Label fx:id="label_sklep" layoutX="33.0" layoutY="22.0" onMouseClicked="#goToMainPage" prefHeight="17.0" prefWidth="186.0" text="STRONA GŁÓWNA">
             <font>
-                <Font name="Arial Black" size="12.0"/>
+                <Font name="Arial Black" size="12.0" />
             </font>
         </Label>
-        <AnchorPane prefHeight="400.0" prefWidth="600.0" layoutY="50"> <!-- Zmieniono layoutY na 50 -->
+        <AnchorPane layoutY="50" prefHeight="400.0" prefWidth="600.0">
             <children>
-                <Button layoutX="324.0" layoutY="10.0" mnemonicParsing="false" text="Start "/>
-                <Button layoutX="403.0" layoutY="10.0" mnemonicParsing="false" text="Stop"/>
-                <Label layoutX="528.0" layoutY="10.0" text="Czas"/>
-                <ChoiceBox fx:id="pracownik" layoutX="122.0" layoutY="10.0" prefWidth="150.0" onMouseClicked="#addEmployeeToTable"/>
+                <ChoiceBox fx:id="pracownik" layoutX="122.0" layoutY="10.0" prefWidth="150.0" />
+                <ChoiceBox fx:id="choiceBoxZadania" layoutX="300.0" layoutY="10.0" prefWidth="150.0" />
+                <Button fx:id="utworzButton" layoutX="470.0" layoutY="10.0" onAction="#handleUtworzButton" text="Utwórz"/>
                 <TableView fx:id="tableView" layoutY="40.0" prefHeight="360.0" prefWidth="600.0">
                     <columns>
-                        <TableColumn fx:id="columnImie" prefWidth="75.0" text="Imię"/>
-                        <TableColumn fx:id="columnNazwisko" prefWidth="75.0" text="Nazwisko"/>
+                        <TableColumn fx:id="columnImie" prefWidth="75.0" text="Imię" />
+                        <TableColumn fx:id="columnNazwisko" prefWidth="75.0" text="Nazwisko" />
+                        <TableColumn fx:id="columnTimer" prefWidth="100.0" text="Timer" />
+                        <TableColumn fx:id="columnStart" prefWidth="87.0" text="Status" />
+                        <TableColumn fx:id="columnTask" prefWidth="142.0" text="Zadanie" />
                     </columns>
                 </TableView>
             </children>
