@@ -85,7 +85,7 @@ public class RejestracjaController {
     private boolean addRegistrationToDatabase(String username, String email, String password) {
         try {
             // Ustanowienie połączenia z bazą danych
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sklep", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sklep", "root", "root");
             // Przygotowanie zapytania SQL
             PreparedStatement statement = conn.prepareStatement("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
             statement.setString(1, username);

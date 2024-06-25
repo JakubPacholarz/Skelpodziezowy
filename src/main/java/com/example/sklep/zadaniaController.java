@@ -85,6 +85,7 @@ public class zadaniaController implements Initializable {
                 String nazwisko = queryOutputEmployees.getString("nazwisko");
                 pracownik.getItems().add(imie + " " + nazwisko);
             }
+            tableView.setItems(employeeList);
         } catch (Exception e) {
             e.printStackTrace(); // Obsługa wyjątków
         }

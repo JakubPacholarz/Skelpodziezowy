@@ -19,7 +19,7 @@ public class DatabaseConnection {
             // URL do bazy danych, nazwa użytkownika i hasło
             String dbURL = "jdbc:mysql://localhost:3306/sklep";
             String username = "root";
-            String password = "";
+            String password = "root";
 
             // Nawiązanie połączenia z bazą danych
             connection = DriverManager.getConnection(dbURL, username, password);
