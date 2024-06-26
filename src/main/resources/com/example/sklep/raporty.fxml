@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FCE4EC;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.RaportController">
+
+    <VBox alignment="CENTER" layoutX="-6.0" layoutY="-5.0" prefHeight="407.0" prefWidth="610.0" spacing="10">
+      <AnchorPane prefHeight="33.0" prefWidth="610.0">
+
+              <Label fx:id="label_sklep" layoutX="61.0" onMouseClicked="#goToMainPage" style="-fx-cursor: hand; -fx-font-size: 16px; -fx-font-weight: bold;" text="STRONA GŁÓWNA">
+        </Label>
+
+      </AnchorPane>
+      <Separator opacity="0.0" orientation="VERTICAL" prefHeight="54.0" prefWidth="6.0" />
+      <Separator opacity="0.0" orientation="VERTICAL" prefHeight="0.0" prefWidth="5.0" />
+      <Pane>
+         <children>
+              <ChoiceBox fx:id="reportTypeChoiceBox" layoutX="230.0" layoutY="4.0" prefWidth="150.0" style="-fx-font-size: 12pt;">
+        </ChoiceBox>
+              <Label layoutX="39.0" layoutY="8.0" style="-fx-font-size: 14pt;" text="Typ Raportu:" />
+         </children>
+      </Pane>
+      <Pane>
+         <children>
+              <ChoiceBox fx:id="filterTypeChoiceBox" layoutX="230.0" layoutY="-3.0" prefWidth="150.0" style="-fx-font-size: 12pt;">
+                  <items>
+                      <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="Brak" />
+                      </FXCollections>
+                  </items>
+              </ChoiceBox>
+      
+              <Label layoutX="40.0" layoutY="1.0" prefHeight="27.0" prefWidth="88.0" style="-fx-font-size: 14pt;" text="Typ Filtra:" />
+         </children>
+      </Pane>
+      <Pane>
+         <children>
+              <TextField fx:id="filterPhraseTextField" layoutX="229.0" layoutY="-3.0" prefHeight="35.0" prefWidth="150.0" promptText="Wprowadź frazę filtra" style="-fx-font-size: 12pt;" />
+      
+              <Label layoutX="42.0" layoutY="4.0" style="-fx-font-size: 14pt;" text="Fraza Filtrująca:" />
+         </children>
+      </Pane>
+
+
+              <Button onAction="#handleGenerateReport" prefHeight="41.0" prefWidth="171.0" style="-fx-font-size: 14pt; -fx-background-color: #FFFFFF; -fx-text-fill: #FF69B4; -fx-border-color: #FF69B4;" text="Generuj Raport" />
+    </VBox>
+</AnchorPane>
