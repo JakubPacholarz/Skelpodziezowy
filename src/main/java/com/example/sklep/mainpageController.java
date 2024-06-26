@@ -32,6 +32,9 @@ public class mainpageController {
     private Label label_informacje; // Etykieta dla sekcji informacji
 
     @FXML
+    private Label label_raporty; // Etykieta dla sekcji raportów
+
+    @FXML
     private Button logoutButton; // Przycisk wylogowania
 
     /**
@@ -45,6 +48,7 @@ public class mainpageController {
         label_zadania.setOnMouseClicked(event -> goToPage2("zadania.fxml"));
         label_dostawcy.setOnMouseClicked(event -> goToPage3("podsumowanie.fxml"));
         label_informacje.setOnMouseClicked(event -> goToPage4("informacje.fxml"));
+        label_raporty.setOnMouseClicked(event -> goToPage5("raporty.fxml"));
     }
 
     /**
@@ -145,6 +149,18 @@ public class mainpageController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("podsumowanie.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) label_zadania.getScene().getWindow();
+            stage.setScene(new Scene(root)); // Ustawienie nowej sceny
+        } catch (IOException e) {
+            e.printStackTrace(); // Obsługa wyjątków IO
+        }
+    }
+
+    private void goToPage5(String raporty) {
+        try {
+            // Ładowanie widoku raportów
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("raporty.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) label_raporty.getScene().getWindow();
             stage.setScene(new Scene(root)); // Ustawienie nowej sceny
         } catch (IOException e) {
             e.printStackTrace(); // Obsługa wyjątków IO
