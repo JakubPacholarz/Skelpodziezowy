@@ -38,8 +38,8 @@ public class PDF {
             case "Magazyn":
                 generateMagazynReport(doc, filterType, filterPhrase);
                 break;
-            case "Pracownicy":
-                generateEmployeeReport(doc, filterType, filterPhrase);
+            case "Zadania":
+                generateTaskReport(doc, filterType, filterPhrase);
                 break;
             case "Użytkownicy":
                 generateUserReport(doc, filterType, filterPhrase);
@@ -60,28 +60,33 @@ public class PDF {
      * @throws Exception W przypadku błędów podczas generowania raportu użytkowników.
      */
     private void generateUserReport(Document doc, Integer filterType, String filterPhrase) throws Exception {
-        String query = "SELECT user_id, username, email, nr_tel, role_id FROM users";
+        String query = "SELECT user_id, imie, nazwisko, email, rola FROM users";
 
         // Dodanie warunku WHERE w zależności od typu filtru
         if (filterType != null && filterPhrase != null && !filterPhrase.isEmpty()) {
             switch (filterType) {
                 case 1:
-                    break; // Brak dodatkowego filtru
+                    // Brak dodatkowego filtru
+                    break;
+                case 4:
+                    query += " WHERE rola LIKE ?";
+                    break; // Filtr po roli
                 case 2:
-                    query += " WHERE role_id = ?";
-                    break; // Filtr po ID roli
+                    query += " WHERE imie LIKE ?";
+                    break; // Filtr po imieniu
+                case 3:
+                    query += " WHERE nazwisko LIKE ?";
+                    break; // Filtr po nazwisku
                 default:
                     throw new IllegalArgumentException("Nieprawidłowy typ filtru.");
             }
         }
 
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // Ustawienie parametru w PreparedStatement, jeśli filtr jest wymagany
             if (filterType != null && filterPhrase != null && !filterPhrase.isEmpty()) {
-                if (filterType == 2) {
-                    preparedStatement.setInt(1, Integer.parseInt(filterPhrase));
-                }
+                String filterValue = "%" + filterPhrase + "%";
+                preparedStatement.setString(1, filterValue);
             }
 
             ResultSet resultSet = preparedStatement.executeQuery(); // Wykonanie zapytania SQL
@@ -98,24 +103,24 @@ public class PDF {
                     .setTextAlignment(TextAlignment.CENTER);
 
             // Nagłówek tabeli
-            Paragraph header = new Paragraph("Tabela Użytkownikow").addStyle(headerStyle);
+            Paragraph header = new Paragraph("Tabela Użytkowników").addStyle(headerStyle);
             doc.add(header);
 
             // Dodanie nagłówków kolumn do tabeli
             table.addHeaderCell(createCell("L.P", headerStyle));
-            table.addHeaderCell(createCell("Imie i Nazwisko", headerStyle));
+            table.addHeaderCell(createCell("Imie", headerStyle));
+            table.addHeaderCell(createCell("Nazwisko", headerStyle));
             table.addHeaderCell(createCell("Email", headerStyle));
-            table.addHeaderCell(createCell("Telefon", headerStyle));
-            table.addHeaderCell(createCell("ID Roli", headerStyle));
+            table.addHeaderCell(createCell("Rola", headerStyle));
 
             int index = 1;
             while (resultSet.next()) {
                 // Wypełnienie tabeli wynikami z bazy danych
                 table.addCell(createCell(String.valueOf(index++), cellStyle)); // L.P
-                table.addCell(createCell(resultSet.getString("username"), cellStyle));
+                table.addCell(createCell(resultSet.getString("imie"), cellStyle));
+                table.addCell(createCell(resultSet.getString("nazwisko"), cellStyle));
                 table.addCell(createCell(resultSet.getString("email"), cellStyle));
-                table.addCell(createCell(resultSet.getString("nr_tel"), cellStyle));
-                table.addCell(createCell(String.valueOf(resultSet.getInt("role_id")), cellStyle));
+                table.addCell(createCell(resultSet.getString("rola"), cellStyle));
             }
             doc.add(table); // Dodanie tabeli do dokumentu PDF
         } catch (Exception e) {
@@ -123,6 +128,7 @@ public class PDF {
             System.out.println("Wystąpił błąd podczas generowania raportu użytkowników: " + e.getMessage());
         }
     }
+
 
 
     /**
@@ -133,26 +139,8 @@ public class PDF {
      * @param filterPhrase Frazy filtru (opcjonalny).
      * @throws Exception W przypadku błędów podczas generowania raportu pracowników.
      */
-    private void generateEmployeeReport(Document doc, Integer filterType, String filterPhrase) throws Exception {
-        String query = "SELECT id, imie, nazwisko, kontakt FROM pracownik";
-
-        // Dodanie warunku WHERE w zależności od typu filtru
-        if (filterType != null && filterPhrase != null && !filterPhrase.isEmpty()) {
-            switch (filterType) {
-                case 1:
-                    break; // Brak dodatkowego filtru
-                case 2:
-                    query += " WHERE imie LIKE ?";
-                    filterPhrase = "%" + filterPhrase + "%";
-                    break; // Filtr po imieniu
-                case 3:
-                    query += " WHERE nazwisko LIKE ?";
-                    filterPhrase = "%" + filterPhrase + "%";
-                    break; // Filtr po nazwisku
-                default:
-                    throw new IllegalArgumentException("Nieobsługiwany typ filtru dla raportu: Pracownicy.");
-            }
-        }
+    private void generateTaskReport(Document doc, Integer filterType, String filterPhrase) throws Exception {
+        String query = "SELECT task_id, task_name FROM tasks";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // Ustawienie parametru w PreparedStatement, jeśli filtr jest wymagany
@@ -161,7 +149,7 @@ public class PDF {
             }
 
             ResultSet resultSet = preparedStatement.executeQuery(); // Wykonanie zapytania SQL
-            Table table = new Table(UnitValue.createPercentArray(new float[]{10, 20, 20, 20})); // Tabela do przechowywania wyników
+            Table table = new Table(UnitValue.createPercentArray(new float[]{50, 50})); // Tabela do przechowywania wyników
 
             Style headerStyle = new Style()
                     .setFontSize(12)
@@ -174,23 +162,19 @@ public class PDF {
                     .setTextAlignment(TextAlignment.CENTER);
 
             // Nagłówek tabeli
-            Paragraph header = new Paragraph("Tabela Pracownikow")
+            Paragraph header = new Paragraph("Tabela Zadan")
                     .addStyle(headerStyle);
             doc.add(header);
 
             // Dodanie nagłówków kolumn do tabeli
             table.addHeaderCell(createCell("L.P", headerStyle));
-            table.addHeaderCell(createCell("Imie", headerStyle));
-            table.addHeaderCell(createCell("Nazwisko", headerStyle));
-            table.addHeaderCell(createCell("Kontakt", headerStyle));
+            table.addHeaderCell(createCell("Nazwa Zadania", headerStyle));
 
             int index = 1;
             while (resultSet.next()) {
                 // Wypełnienie tabeli wynikami z bazy danych
                 table.addCell(createCell(String.valueOf(index++), cellStyle)); // L.P
-                table.addCell(createCell(resultSet.getString("imie"), cellStyle));
-                table.addCell(createCell(resultSet.getString("nazwisko"), cellStyle));
-                table.addCell(createCell(resultSet.getString("kontakt"), cellStyle));
+                table.addCell(createCell(resultSet.getString("task_name"), cellStyle));
             }
             doc.add(table); // Dodanie tabeli do dokumentu PDF
         } catch (Exception e) {
@@ -218,8 +202,11 @@ public class PDF {
                 case 1:
                     break; // Brak dodatkowego filtru
                 case 2:
-                    query += "zasoby < " + filterPhrase;
+                    query += "zasoby <= " + filterPhrase;
                     break; // Filtr po ilości zasobów
+                case 3:
+                    query += "dostawca LIKE '" + filterPhrase + "'";
+                    break; // Filtr po nazwie dostawcy
                 default:
                     throw new IllegalArgumentException("Nieobsługiwany typ filtru dla raportu: Magazyn.");
             }

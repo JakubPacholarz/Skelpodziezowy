@@ -4,46 +4,60 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.RejestracjaController">
+<AnchorPane prefHeight="586.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.RejestracjaController">
    <children>
-      <AnchorPane focusTraversable="true" prefHeight="400.0" prefWidth="412.0" style="-fx-background-color: #2934;">
+      <AnchorPane focusTraversable="true" prefHeight="586.0" prefWidth="784.0" style="-fx-background-color: #2934;">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="133.0" prefWidth="601.0" text="REJESTRACJA " textAlignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="258.0" prefHeight="96.0" prefWidth="288.0" text="REJESTRACJA " textAlignment="CENTER">
                <font>
-                  <Font name="Arial Black" size="24.0" />
+                  <Font name="Arial Black" size="34.0" />
                </font>
             </Label>
-            <Label layoutX="79.0" layoutY="133.0" prefHeight="17.0" prefWidth="131.0" text="IMIĘ I NAZWISKO ">
+            <Label layoutX="217.0" layoutY="121.0" prefHeight="17.0" prefWidth="50.0" text=" IMIĘ:">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="110.0" layoutY="198.0" prefHeight="37.0" prefWidth="58.0" text="HASŁO ">
+            <Label layoutX="197.0" layoutY="177.0" prefHeight="17.0" prefWidth="89.0" text="NAZWISKO:">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="tf_password" layoutX="301.0" layoutY="204.0" prefHeight="0.0" prefWidth="201.0" />
-            <TextField fx:id="tf_username" layoutX="301.0" layoutY="129.0" prefHeight="25.0" prefWidth="201.0" />
-            <Button fx:id="btn_rejestracja" layoutX="252.0" layoutY="276.0" mnemonicParsing="false" onAction="#rejestracjaButtonClicked" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #FFFDD0;" text="RESESTRACJA ">
+            <Label layoutX="217.0" layoutY="275.0" prefHeight="37.0" prefWidth="58.0" text="HASŁO: ">
                <font>
                   <Font name="Arial Black" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tf_password" layoutX="301.0" layoutY="281.0" prefHeight="0.0" prefWidth="201.0" />
+            <TextField fx:id="tf_username" layoutX="301.0" layoutY="173.0" prefHeight="25.0" prefWidth="201.0" />
+            <TextField fx:id="tf_nazwisko" layoutX="302.0" layoutY="117.0" prefHeight="25.0" prefWidth="201.0" />
+            <Button fx:id="btn_rejestracja" layoutX="314.0" layoutY="419.0" mnemonicParsing="false" onAction="#rejestracjaButtonClicked" prefHeight="38.0" prefWidth="169.0" style="-fx-background-color: #FFFDD0;" text="REJESTRACJA">
+               <font>
+                  <Font name="Arial Black" size="17.0" />
                </font>
             </Button>
-            <Button fx:id="btn_login" layoutX="252.0" layoutY="315.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="0.0" prefWidth="125.0" style="-fx-background-color: #FFFDD0;" text="BACK TO LOGIN" wrapText="true">
+            <Button fx:id="btn_login" layoutX="314.0" layoutY="477.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="38.0" prefWidth="169.0" style="-fx-background-color: #FFFDD0;" text="POWRÓT" wrapText="true">
                <font>
-                  <Font name="Arial Black" size="12.0" />
+                  <Font name="Arial Black" size="17.0" />
                </font>
             </Button>
-            <Label fx:id="btn_email" layoutX="110.0" layoutY="166.0" prefHeight="37.0" prefWidth="50.0" text="EMAIL">
+            <Label fx:id="btn_email" layoutX="217.0" layoutY="223.0" prefHeight="37.0" prefWidth="50.0" text="EMAIL:">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="tf_email" layoutX="301.0" layoutY="172.0" prefHeight="25.0" prefWidth="201.0" />
+            <TextField fx:id="tf_email" layoutX="301.0" layoutY="229.0" prefHeight="25.0" prefWidth="201.0" />
 
             <!-- Dodany element Label dla wyświetlania błędu -->
-            <Label fx:id="lbl_errorMessage" layoutX="230.0" layoutY="254.0" prefHeight="17.0" prefWidth="163.0" textFill="RED" />
+            <Label fx:id="lbl_errorMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="247.0" layoutY="381.0" prefHeight="17.0" prefWidth="314.0" textFill="RED" />
+
+            <!-- Dodany element ComboBox dla roli -->
+            <Label layoutX="221.0" layoutY="327.0" prefHeight="37.0" prefWidth="50.0" text="ROLA:">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cb_role" layoutX="301.0" layoutY="333.0" prefHeight="25.0" prefWidth="201.0" />
          </children>
       </AnchorPane>
       <Label layoutX="410.0" layoutY="227.0" prefHeight="17.0" prefWidth="58.0" />

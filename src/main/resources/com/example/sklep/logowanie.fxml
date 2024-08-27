@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.LoginController">
+<HBox prefHeight="586.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.LoginController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #2934;">
          <children>
@@ -16,44 +16,44 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="400.0" prefWidth="411.0">
+      <AnchorPane prefHeight="586.0" prefWidth="784.0">
          <children>
-            <Label layoutX="140.0" layoutY="137.0" prefHeight="35.0" prefWidth="101.0" text="Zaloguj się">
+            <Label layoutX="208.0" layoutY="145.0" prefHeight="35.0" prefWidth="172.0" text="ZALOGUJ SIĘ">
                <font>
-                  <Font name="Arial Black" size="16.0" />
+                  <Font name="Arial Black" size="22.0" />
                </font>
                <style>
                   -fx-font-weight: bold;
                </style>
             </Label>
-            <Label layoutX="165.0" layoutY="200.0" prefHeight="25.0" prefWidth="59.0" text="EMAIL:">
+            <Label layoutX="265.0" layoutY="226.0" prefHeight="25.0" prefWidth="59.0" text="EMAIL:">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="165.0" layoutY="265.0" prefHeight="25.0" prefWidth="59.0" text="HASŁO:">
+            <Label layoutX="265.0" layoutY="328.0" prefHeight="25.0" prefWidth="59.0" text="HASŁO:">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="tf_username" layoutX="120.0" layoutY="222.0" />
-            <PasswordField fx:id="tf_password" layoutX="120.0" layoutY="290.0" />
-            <Button fx:id="btn_login" layoutX="154.0" layoutY="334.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="25.0" prefWidth="74.0" style="-fx-background-color: #2934;" text="LOGIN">
+            <TextField fx:id="tf_email" layoutX="220.0" layoutY="268.0" />
+            <PasswordField fx:id="tf_password" layoutX="220.0" layoutY="365.0" />
+            <Button fx:id="btn_login" layoutX="227.0" layoutY="439.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="39.0" prefWidth="135.0" style="-fx-background-color: #2934;" text="LOGOWANIE">
                <font>
-                  <Font name="Arial Black" size="12.0" />
+                  <Font name="Arial Black" size="16.0" />
                </font>
             </Button>
-            <Label fx:id="lbl_errorMessage" layoutX="126.0" layoutY="100.0" prefHeight="43.0" prefWidth="218.0" textFill="red" />
+            <Label fx:id="lbl_errorMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="390.0" prefHeight="43.0" prefWidth="591.0" textFill="red" />
 
-            <Label layoutX="50.0" layoutY="59.0" prefHeight="43.0" prefWidth="134.0" text="ZAJERESTRUJ SIE ">
+            <Label layoutX="61.0" layoutY="59.0" prefHeight="43.0" prefWidth="222.0" text="ZAJERESTRUJ SIĘ ">
                <font>
-                  <Font name="Arial Black" size="12.0" />
+                  <Font name="Arial Black" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="bt_rejestracja" layoutX="205.0" layoutY="68.0" mnemonicParsing="false" onAction="#registerButtonClicked" prefHeight="25.0" prefWidth="121.0" style="-fx-background-color: #2934;" text="REJESTRACJA">
+            <Button fx:id="bt_rejestracja" layoutX="348.0" layoutY="59.0" mnemonicParsing="false" onAction="#registerButtonClicked" prefHeight="43.0" prefWidth="201.0" style="-fx-background-color: #2934;" text="REJESTRACJA">
 
             <font>
-                  <Font name="Arial Black" size="12.0" />
+                  <Font name="Arial Black" size="20.0" />
                </font>
             </Button>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />

@@ -1,30 +1,29 @@
 package com.example.sklep;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-/**
- * Kontroler dla widoku pracowników.
- */
 public class pracownicyController implements Initializable {
 
     @FXML
-    private TableView<Employee> tableView; // Tabela do wyświetlania danych pracowników
+    private TableView<Employee> tableView;
 
     @FXML
     private TableColumn<Employee, String> imieColumn;
@@ -36,209 +35,265 @@ public class pracownicyController implements Initializable {
     private TableColumn<Employee, String> kontaktColumn;
 
     @FXML
-    private Label label_sklep; // Etykieta sklepu, używana do nawigacji
-    DatabaseConnection connectNow = new DatabaseConnection();
-    Connection connectDB = connectNow.getConnection();
+    private Label label_sklep;
 
+    @FXML
+    private Button btnDodajPracownika;
 
-    /**
-     * Metoda inicjalizacyjna, wywoływana po załadowaniu FXML.
-     *
-     * @param location  lokalizacja pliku FXML
-     * @param resources zasoby do wykorzystania w kontrolerze
-     */
+    @FXML
+    private Button btnUsunPracownika;
+
+    private String userRole;
+    private Connection connectDB;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         imieColumn.setCellValueFactory(new PropertyValueFactory<>("imie"));
         nazwiskoColumn.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-        kontaktColumn.setCellValueFactory(new PropertyValueFactory<>("kontakt"));
+        kontaktColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        // Set custom cell factories to center-align the text
+        setColumnCellFactory(imieColumn);
+        setColumnCellFactory(nazwiskoColumn);
+        setColumnCellFactory(kontaktColumn);
 
         ObservableList<Employee> employeeList = FXCollections.observableArrayList();
 
-        // Tworzenie połączenia z bazą danych
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        setUserRole(UserSession.getInstance().getUserRole());
+        userRole = UserSession.getInstance().getUserRole();
 
-        // Zapytanie do bazy danych o pracowników
-        String connectQuery = "SELECT imie, nazwisko, kontakt FROM pracownik";
+        DatabaseConnection connectNow = new DatabaseConnection();
+        connectDB = connectNow.getConnection();
+
+        String connectQuery = "SELECT imie, nazwisko, email FROM users WHERE rola NOT LIKE 'admin'";
+        updateButtonVisibility();
 
         try {
-            // Wykonanie zapytania
             Statement statement = connectDB.createStatement();
             ResultSet queryOutput = statement.executeQuery(connectQuery);
 
             while (queryOutput.next()) {
-                // Pobranie danych pracowników
                 String imie = queryOutput.getString("imie");
                 String nazwisko = queryOutput.getString("nazwisko");
-                String kontakt = queryOutput.getString("kontakt");
+                String email = queryOutput.getString("email");
 
-                employeeList.add(new Employee(imie, nazwisko, kontakt));
+                employeeList.add(new Employee(imie, nazwisko, email, null, null));
             }
 
             tableView.setItems(employeeList);
 
-        } catch (Exception e) {
-            e.printStackTrace(); // Obsługa wyjątków
+        } catch (SQLException e) {
+            handleSQLException(e);
         }
+
+        updateButtonVisibility();
     }
 
-    /**
-     * Metoda obsługująca kliknięcie etykiety sklepu, przechodząca do głównej strony.
-     *
-     * @param event zdarzenie kliknięcia myszką
-     */
+    private void setColumnCellFactory(TableColumn<Employee, String> column) {
+        column.setCellFactory(new Callback<TableColumn<Employee, String>, TableCell<Employee, String>>() {
+            @Override
+            public TableCell<Employee, String> call(TableColumn<Employee, String> param) {
+                return new TableCell<Employee, String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            setText(item);
+                            setStyle("-fx-alignment: CENTER;");
+                        }
+                    }
+                };
+            }
+        });
+    }
+
     @FXML
     private void goToMainPage(MouseEvent event) {
         try {
-            // Ładowanie widoku głównej strony
             FXMLLoader loader = new FXMLLoader(getClass().getResource("mainpage.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) label_sklep.getScene().getWindow();
-            stage.setScene(new Scene(root)); // Ustawienie nowej sceny
-            stage.show(); // Wyświetlenie nowej sceny
-        } catch (Exception e) {
-            e.printStackTrace(); // Obsługa wyjątków
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            handleIOException(e);
         }
+    }
+
+    public void setUserRole(String rola) {
+        UserSession.getInstance().setUserRole(rola);
+        this.userRole = rola;
+    }
+
+    private void updateButtonVisibility() {
+        boolean isAdmin = "admin".equalsIgnoreCase(userRole);
+        btnDodajPracownika.setVisible(isAdmin);
+        btnUsunPracownika.setVisible(isAdmin);
     }
 
     @FXML
     private void handleAddEmployee() {
         try {
-            Dialog<String> dialog = new Dialog<>();
+            if (!"admin".equalsIgnoreCase(userRole)) {
+                showUnauthorizedAlert();
+                return;
+            }
+
+            Dialog<Employee> dialog = new Dialog<>();
             dialog.setTitle("Dodaj nowego pracownika");
             dialog.setHeaderText("Dodawanie nowego pracownika");
 
-            // Create labels and text fields
             Label nameLabel = new Label("Imię:");
             TextField nameTextField = new TextField();
 
             Label surnameLabel = new Label("Nazwisko:");
             TextField surnameTextField = new TextField();
 
-            Label contactLabel = new Label("Kontakt:");
+            Label contactLabel = new Label("Email:");
             TextField contactTextField = new TextField();
 
+            Label passwordLabel = new Label("Hasło:");
+            PasswordField passwordTextField = new PasswordField();
+
+            Label roleLabel = new Label("Rola:");
+            ComboBox<String> roleComboBox = new ComboBox<>();
+            roleComboBox.getItems().addAll("pracownik", "kierownik", "admin");
+
             VBox vbox = new VBox(10);
-            vbox.getChildren().addAll(nameLabel, nameTextField, surnameLabel, surnameTextField, contactLabel, contactTextField);
+            vbox.getChildren().addAll(nameLabel, nameTextField, surnameLabel, surnameTextField, contactLabel, contactTextField,
+                    passwordLabel, passwordTextField, roleLabel, roleComboBox);
             dialog.getDialogPane().setContent(vbox);
 
-            // Add buttons
             dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-            // Handle OK button action
             dialog.setResultConverter(buttonType -> {
                 if (buttonType == ButtonType.OK) {
-                    return nameTextField.getText() + ";" + surnameTextField.getText() + ";" + contactTextField.getText();
+                    String selectedRole = roleComboBox.getValue();
+                    return new Employee(nameTextField.getText(), surnameTextField.getText(),
+                            contactTextField.getText(), passwordTextField.getText(), selectedRole);
                 }
                 return null;
             });
 
-            // Show dialog and process result
-            Optional<String> result = dialog.showAndWait();
-            result.ifPresent(input -> {
-                String[] parts = input.split(";");
-                if (parts.length == 3) {
-                    String name = parts[0];
-                    String surname = parts[1];
-                    String contact = parts[2];
-
-                    // Example of confirming insertion
-                    Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                    confirmationAlert.setTitle("Potwierdzenie dodania");
-                    confirmationAlert.setHeaderText("Dodanie Pracownika");
-                    confirmationAlert.setContentText("Czy na pewno chcesz dodać pracownika: " + name + " " + surname + " z kontaktem " + contact + "?");
-
-                    Optional<ButtonType> confirmationResult = confirmationAlert.showAndWait();
-                    if (confirmationResult.isPresent() && confirmationResult.get() == ButtonType.OK) {
-                        // Wstaw nowego pracownika do bazy danych
-                        String insertQuery = "INSERT INTO pracownik (imie, nazwisko, kontakt) VALUES (?, ?, ?)";
-                        PreparedStatement insertStatement = null;
-                        try {
-                            insertStatement = connectDB.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            insertStatement.setString(1, name);
-                            insertStatement.setString(2, surname);
-                            insertStatement.setString(3, contact);
-                            insertStatement.executeUpdate();
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                        System.out.println("Dodano pracownika: " + name + " " + surname + " z kontaktem " + contact);
-                        tableView.getItems().add(new pracownicyController.Employee(name, surname, contact));
-                    } else {
-                        System.out.println("Anulowano dodawanie pracownika.");
-                    }
-                } else {
-                    System.out.println("Błąd podczas przetwarzania danych.");
+            Optional<Employee> result = dialog.showAndWait();
+            result.ifPresent(employee -> {
+                if (isEmailAlreadyRegistered(employee.getEmail())) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Email już istnieje");
+                    alert.setHeaderText("Nie można dodać pracownika");
+                    alert.setContentText("Podany adres e-mail jest już zarejestrowany w systemie.");
+                    alert.showAndWait();
+                    return;
                 }
 
+                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationAlert.setTitle("Potwierdzenie dodania");
+                confirmationAlert.setHeaderText("Dodanie Pracownika");
+                confirmationAlert.setContentText("Czy na pewno chcesz dodać pracownika: " + employee.getImie() + " " + employee.getNazwisko() +
+                        " z kontaktem " + employee.getEmail() + " i rolą " + employee.getRola() + "?");
+
+                Optional<ButtonType> confirmationResult = confirmationAlert.showAndWait();
+                if (confirmationResult.isPresent() && confirmationResult.get() == ButtonType.OK) {
+                    try {
+                        employee.addToDatabase(connectDB);
+                        tableView.getItems().add(employee);
+                        System.out.println("Dodano pracownika: " + employee.getImie() + " " + employee.getNazwisko() +
+                                " z kontaktem " + employee.getEmail() + " i rolą " + employee.getRola());
+                    } catch (SQLException e) {
+                        handleSQLException(e);
+                    }
+                } else {
+                    System.out.println("Anulowano dodawanie pracownika.");
+                }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    @FXML
-    private void handleDelEmployee() {
-        Employee selectedEmployee = tableView.getSelectionModel().getSelectedItem();
-        if (selectedEmployee != null) {
-            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationAlert.setTitle("Potwierdzenie usunięcia");
-            confirmationAlert.setHeaderText("Usunięcie Pracownika");
-            confirmationAlert.setContentText("Czy na pewno chcesz usunąć pracownika: " + selectedEmployee.getImie() + " " + selectedEmployee.getNazwisko() + "?");
 
-            Optional<ButtonType> confirmationResult = confirmationAlert.showAndWait();
-            if (confirmationResult.isPresent() && confirmationResult.get() == ButtonType.OK) {
-                // Usuń pracownika z bazy danych
-                String deleteQuery = "DELETE FROM pracownik WHERE imie = ? AND nazwisko = ? AND kontakt = ?";
-                try {
-                    PreparedStatement deleteStatement = connectDB.prepareStatement(deleteQuery);
-                    deleteStatement.setString(1, selectedEmployee.getImie());
-                    deleteStatement.setString(2, selectedEmployee.getNazwisko());
-                    deleteStatement.setString(3, selectedEmployee.getKontakt());
-                    deleteStatement.executeUpdate();
-
-                    // Usuń pracownika z tabeli
-                    tableView.getItems().remove(selectedEmployee);
-                    System.out.println("Usunięto pracownika: " + selectedEmployee.getImie() + " " + selectedEmployee.getNazwisko());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("Anulowano usunięcie pracownika.");
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Brak zaznaczenia");
-            alert.setHeaderText("Nie wybrano pracownika");
-            alert.setContentText("Proszę zaznaczyć pracownika do usunięcia.");
-            alert.showAndWait();
+    private boolean isEmailAlreadyRegistered(String email) {
+        try {
+            PreparedStatement statement = connectDB.prepareStatement("SELECT * FROM users WHERE email = ?");
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next(); // Jeśli wynik zapytania nie jest pusty, email jest już zarejestrowany
+        } catch (SQLException e) {
+            handleSQLException(e);
+            return true; // Załóżmy że wystąpił błąd - dla bezpieczeństwa zwracamy true
         }
     }
-    public static class Employee {
-        private String imie;
-        private String nazwisko;
-        private String kontakt;
 
-        public Employee(String imie, String nazwisko, String kontakt) {
-            this.imie = imie;
-            this.nazwisko = nazwisko;
-            this.kontakt = kontakt;
-        }
+    @FXML
+    private void handleDelEmployee() {
+        try {
+            if (!"admin".equalsIgnoreCase(userRole)) {
+                showUnauthorizedAlert();
+                return;
+            }
 
-        public String getImie() {
-            return imie;
-        }
+            Employee selectedEmployee = tableView.getSelectionModel().getSelectedItem();
+            if (selectedEmployee != null) {
+                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationAlert.setTitle("Potwierdzenie usunięcia");
+                confirmationAlert.setHeaderText("Usunięcie Pracownika");
+                confirmationAlert.setContentText("Czy na pewno chcesz usunąć pracownika: " + selectedEmployee.getImie() + " " + selectedEmployee.getNazwisko() + "?");
 
-        public String getNazwisko() {
-            return nazwisko;
-        }
+                Optional<ButtonType> confirmationResult = confirmationAlert.showAndWait();
+                if (confirmationResult.isPresent() && confirmationResult.get() == ButtonType.OK) {
+                    String deleteQuery = "DELETE FROM users WHERE imie = ? AND nazwisko = ? AND email = ?";
+                    try {
+                        PreparedStatement deleteStatement = connectDB.prepareStatement(deleteQuery);
+                        deleteStatement.setString(1, selectedEmployee.getImie());
+                        deleteStatement.setString(2, selectedEmployee.getNazwisko());
+                        deleteStatement.setString(3, selectedEmployee.getEmail());
+                        deleteStatement.executeUpdate();
 
-        public String getKontakt() {
-            return kontakt;
+                        tableView.getItems().remove(selectedEmployee);
+                        System.out.println("Usunięto pracownika: " + selectedEmployee.getImie() + " " + selectedEmployee.getNazwisko());
+                    } catch (SQLException e) {
+                        handleSQLException(e);
+                    }
+                } else {
+                    System.out.println("Anulowano usunięcie pracownika.");
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Brak zaznaczenia");
+                alert.setHeaderText("Nie wybrano pracownika");
+                alert.setContentText("Proszę zaznaczyć pracownika do usunięcia.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private void showUnauthorizedAlert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Brak autoryzacji");
+        alert.setHeaderText("Nie masz wystarczających uprawnień");
+        alert.setContentText("Ta operacja wymaga uprawnień administratora.");
+        alert.showAndWait();
+    }
+
+    private void handleSQLException(SQLException e) {
+        e.printStackTrace();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Błąd SQL");
+        alert.setHeaderText("Wystąpił błąd podczas operacji na bazie danych");
+        alert.setContentText(e.getMessage());
+        alert.showAndWait();
+    }
+
+    private void handleIOException(IOException e) {
+        e.printStackTrace();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Błąd wejścia/wyjścia");
+        alert.setHeaderText("Wystąpił błąd wejścia/wyjścia");
+        alert.setContentText(e.getMessage());
+        alert.showAndWait();
     }
 }

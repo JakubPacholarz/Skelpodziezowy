@@ -3,19 +3,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #E1E0E0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.mainpageController">
+<AnchorPane prefHeight="586.0" prefWidth="784.0" style="-fx-background-color: #E1E0E0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.mainpageController">
    <children>
       <!-- Główna zawartość strony -->
-      <Label id="label_skelp" layoutX="126.0" layoutY="36.0" prefHeight="50.0" prefWidth="349.0" style="-fx-font-family: 'Arial Black'; -fx-font-size: 32px; -fx-text-fill: #26A432;" text="SKLEP ODZIEŻOWY" />
+      <Label id="label_skelp" layoutX="178.0" layoutY="42.0" prefHeight="58.0" prefWidth="454.0" style="-fx-font-family: 'Arial Black'; -fx-font-size: 39px; -fx-text-fill: #26A432;" text="SKLEP ODZIEŻOWY" />
+      <Label fx:id="label_role" layoutX="126.0" layoutY="90.0" prefHeight="20.0" prefWidth="349.0" style="-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: #333333;" />
+      <Label fx:id="label_user_id" layoutX="90.0" layoutY="90.0" prefHeight="20.0" prefWidth="349.0" style="-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: #333333;" />
 
-      <Label fx:id="label_pracownicy" layoutX="106.0" layoutY="120.0" prefHeight="30.0" prefWidth="100.0" style="-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: #26A432;" text="Pracownicy" />
-      <Label fx:id="label_magazyn" layoutX="257.0" layoutY="120.0" prefHeight="30.0" prefWidth="100.0" style="-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: #26A432;" text="Magazyn" />
-      <Label fx:id="label_zadania" layoutX="392.0" layoutY="120.0" prefHeight="30.0" prefWidth="100.0" style="-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: #26A432;" text="Zadania" />
-      <Label fx:id="label_dostawcy" layoutX="106.0" layoutY="200.0" prefHeight="30.0" prefWidth="136.0" style="-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: #26A432;" text="Podsumowanie" />
-      <Label fx:id="label_informacje" layoutX="380.0" layoutY="200.0" prefHeight="30.0" prefWidth="100.0" style="-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: #26A432;" text="Informacje" />
-      <Label fx:id="label_raporty" layoutX="257.0" layoutY="200.0" prefHeight="30.0" prefWidth="100.0" style="-fx-font-family: 'Arial'; -fx-font-size: 18px; -fx-text-fill: #26A432;" text="Raporty" />
+      <Label fx:id="label_pracownicy" layoutX="107.0" layoutY="142.0" prefHeight="31.0" prefWidth="142.0" style="-fx-font-family: 'Arial'; -fx-font-size: 26px; -fx-text-fill: #26A432;" text="Pracownicy" />
+      <Label fx:id="label_magazyn" layoutX="338.0" layoutY="142.0" prefHeight="31.0" prefWidth="108.0" style="-fx-font-family: 'Arial'; -fx-font-size: 26px; -fx-text-fill: #26A432;" text="Magazyn" />
+      <Label fx:id="label_zadania" layoutX="562.0" layoutY="142.0" prefHeight="30.0" prefWidth="100.0" style="-fx-font-family: 'Arial'; -fx-font-size: 26px; -fx-text-fill: #26A432;" text="Zadania" />
+      <Label fx:id="label_dostawcy" layoutX="158.0" layoutY="278.0" prefHeight="31.0" prefWidth="183.0" style="-fx-font-family: 'Arial'; -fx-font-size: 26px; -fx-text-fill: #26A432;" text="Podsumowanie" />
+      <Label fx:id="label_informacje" layoutX="495.0" layoutY="406.0" prefHeight="31.0" prefWidth="249.0" style="-fx-font-family: 'Arial'; -fx-font-size: 26px; -fx-text-fill: #26A432;" text="Panel Administratora" />
+      <Label fx:id="label_raporty" layoutX="462.0" layoutY="278.0" prefHeight="30.0" prefWidth="100.0" style="-fx-font-family: 'Arial'; -fx-font-size: 26px; -fx-text-fill: #26A432;" text="Raporty" />
 
       <!-- Przycisk wylogowania -->
-      <Button fx:id="logoutButton" layoutX="220.0" layoutY="290.0" mnemonicParsing="false" onAction="#logoutButtonClicked" prefHeight="40.0" prefWidth="160.0" style="-fx-font-family: 'Arial'; -fx-font-size: 16px; -fx-background-color: #DC143C; -fx-text-fill: #FFFFFF;" text="Wyloguj" wrapText="true" />
+      <Button fx:id="logoutButton" layoutX="297.0" layoutY="401.0" mnemonicParsing="false" onAction="#logoutButtonClicked" prefHeight="40.0" prefWidth="160.0" style="-fx-font-family: 'Arial'; -fx-font-size: 16px; -fx-background-color: #DC143C; -fx-text-fill: #FFFFFF;" text="Wyloguj" wrapText="true" />
    </children>
 </AnchorPane>

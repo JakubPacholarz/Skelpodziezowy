@@ -13,7 +13,7 @@ public class DatabaseConnection {
      *
      * @return obiekt Connection reprezentujący połączenie z bazą danych lub null w przypadku błędu.
      */
-    public Connection getConnection() {
+    public static Connection getConnection() {
         Connection connection; // Deklaracja zmiennej do przechowywania połączenia
         try {
             // URL do bazy danych, nazwa użytkownika i hasło

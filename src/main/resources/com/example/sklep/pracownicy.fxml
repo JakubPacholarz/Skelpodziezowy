@@ -3,18 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F0F0F0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.pracownicyController">
+<AnchorPane prefHeight="586.0" prefWidth="784.0" style="-fx-background-color: #F0F0F0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep.pracownicyController">
     <children>
-        <Label fx:id="label_sklep" layoutX="20.0" layoutY="20.0" onMouseClicked="#goToMainPage" style="-fx-cursor: hand; -fx-font-size: 16px; -fx-font-weight: bold;" text="STRONA GŁÓWNA">
-        </Label>
-        <Button fx:id="" layoutX="290.0" layoutY="18.0" onMouseClicked="#handleAddEmployee" prefHeight="30.0" prefWidth="141.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;" text="Dodaj Pracownika" />
-        <Button layoutX="449.0" layoutY="18.0" onAction="#handleDelEmployee" prefHeight="30.0" prefWidth="134.0" style="-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;" text="Usuń Pracownika" />
+        <Label fx:id="label_sklep" layoutX="20.0" layoutY="20.0" onMouseClicked="#goToMainPage" style="-fx-cursor: hand; -fx-font-size: 16px; -fx-font-weight: bold;" text="STRONA GŁÓWNA" />
+        <Button fx:id="btnDodajPracownika" layoutX="358.0" layoutY="18.0" onMouseClicked="#handleAddEmployee" prefHeight="30.0" prefWidth="158.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;" text="Dodaj Pracownika" />
+        <Button fx:id="btnUsunPracownika" layoutX="569.0" layoutY="18.0" onAction="#handleDelEmployee" prefHeight="30.0" prefWidth="158.0" style="-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;" text="Usuń Pracownika" />
 
-        <TableView fx:id="tableView" layoutX="50.0" layoutY="80.0" prefHeight="300.0" prefWidth="500.0">
+        <TableView fx:id="tableView" layoutX="50.0" layoutY="80.0" prefHeight="480.0" prefWidth="679.0">
             <columns>
-                <TableColumn fx:id="imieColumn" prefWidth="150.0" text="Imię" />
-                <TableColumn fx:id="nazwiskoColumn" prefWidth="150.0" text="Nazwisko" />
-                <TableColumn fx:id="kontaktColumn" prefWidth="200.0" text="Kontakt" />
+                <TableColumn fx:id="imieColumn" prefWidth="213.0" text="Imię" />
+                <TableColumn fx:id="nazwiskoColumn" prefWidth="236.0" text="Nazwisko" />
+                <TableColumn fx:id="kontaktColumn" prefWidth="229.0" text="Kontakt" />
             </columns>
         </TableView>
     </children>

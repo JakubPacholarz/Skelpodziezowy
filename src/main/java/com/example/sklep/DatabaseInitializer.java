@@ -41,63 +41,19 @@ public class DatabaseInitializer {
                                 "('Firma C', 100, '123-456-789'), " +
                                 "('Firma D', 100, '123-456-789');",
 
-                        // Stworzenie tabeli pracownik
-                        "CREATE TABLE IF NOT EXISTS pracownik (" +
-                                "id int(11) NOT NULL AUTO_INCREMENT, " +
-                                "imie varchar(50) DEFAULT NULL, " +
-                                "nazwisko varchar(50) DEFAULT NULL, " +
-                                "kontakt varchar(20) DEFAULT NULL, " +
-                                "PRIMARY KEY (id)" +
-                                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;",
-
-                        // Wprowadzenie danych do tabeli pracownik
-                        "INSERT INTO pracownik (id, imie, nazwisko, kontakt) VALUES " +
-                                "(1, 'Anna', 'Helon', 'ah@ur.pl'), " +
-                                "(2, 'Maciej', 'Gawlak', 'mg@ur.pl'), " +
-                                "(3, 'Kacper', 'Jarosz', 'kj@ur.pl'), " +
-                                "(4, 'Jakub', 'Pacholarz', 'jp@ur.pl');",
-
-                        // Stworzenie tabeli roles
-                        "CREATE TABLE IF NOT EXISTS roles (" +
-                                "role_id int(11) NOT NULL AUTO_INCREMENT, " +
-                                "role_name varchar(50) DEFAULT NULL, " +
-                                "PRIMARY KEY (role_id)" +
-                                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;",
-
-                        // Wprowadzenie danych do tabeli roles
-                        "INSERT INTO roles (role_id, role_name) VALUES " +
-                                "(1, 'Pracownik'), " +
-                                "(2, 'Admin'), " +
-                                "(3, 'Kierownik');",
-
-                        // Stworzenie tabeli taskpriority
-                        "CREATE TABLE IF NOT EXISTS taskpriority (" +
-                                "priority_id int(11) NOT NULL AUTO_INCREMENT, " +
-                                "priority_name varchar(50) DEFAULT NULL, " +
-                                "PRIMARY KEY (priority_id)" +
-                                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;",
-
-                        // Wprowadzenie danych do taskpriority
-                        "INSERT INTO taskpriority (priority_id, priority_name) VALUES " +
-                                "(1, 'Niski'), " +
-                                "(2, 'Średni'), " +
-                                "(3, 'Wysoki');",
-
                         // Stworzenie tabeli tasks
                         "CREATE TABLE IF NOT EXISTS tasks (" +
                                 "task_id int(11) NOT NULL AUTO_INCREMENT, " +
                                 "task_name varchar(50) DEFAULT NULL, " +
-                                "status_id int(11) DEFAULT NULL, " +
-                                "PRIMARY KEY (task_id), " +
-                                "KEY status_id (status_id)" +
+                                "PRIMARY KEY (task_id)" +
                                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;",
 
                         // Wprowadzenie danych do tabeli tasks
-                        "INSERT INTO tasks (task_id, task_name, status_id) VALUES " +
-                                "(1, 'Dostawa', 1), " +
-                                "(2, 'Dotowarowanie', 1), " +
-                                "(3, 'Sprzątanie', 1), " +
-                                "(4, 'Prasowanie', 1);",
+                        "INSERT INTO tasks (task_name) VALUES " +
+                                "('Dostawa'), " +
+                                "('Dotowarowanie'), " +
+                                "('Sprzątanie'), " +
+                                "('Prasowanie');",
 
                         // Stworzenie tabeli taskstatus
                         "CREATE TABLE IF NOT EXISTS taskstatus (" +
@@ -106,56 +62,44 @@ public class DatabaseInitializer {
                                 "PRIMARY KEY (status_id)" +
                                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;",
 
-                        // Wstaw dane do taskstatus
+                        // Wprowadzenie danych do taskstatus
                         "INSERT INTO taskstatus (status_id, status_name) VALUES " +
-                                "(1, 'Rozpoczęcie'), " +
+                                "(1, 'Gotowe'), " +
                                 "(2, 'W toku'), " +
                                 "(3, 'Zakończone');",
 
-                        // Tworzenie tabeli użytkowników
+                        // Stworzenie tabeli użytkowników
                         "CREATE TABLE IF NOT EXISTS users (" +
                                 "user_id int(11) NOT NULL AUTO_INCREMENT, " +
-                                "username varchar(50) DEFAULT NULL, " +
+                                "imie varchar(50) DEFAULT NULL, " +
+                                "nazwisko varchar(50) DEFAULT NULL, " +
                                 "email varchar(100) NOT NULL, " +
                                 "password varchar(255) NOT NULL, " +
-                                "nr_tel varchar(20) DEFAULT NULL, " +
-                                "role_id int(11) DEFAULT NULL, " +
-                                "status_id int(11) DEFAULT NULL, " +
-                                "priority_id int(11) DEFAULT NULL, " +
-                                "PRIMARY KEY (user_id), " +
-                                "KEY role_id (role_id), " +
-                                "KEY status_id (status_id), " +
-                                "KEY priority_id (priority_id)" +
+                                "rola ENUM('pracownik', 'kierownik', 'admin') DEFAULT 'pracownik', " +
+                                "total_time_spent INT DEFAULT 0, " +
+                                "approved BOOLEAN DEFAULT false, " +  // Nowe pole approved
+                                "PRIMARY KEY (user_id)" +
                                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;",
 
-                        // Wstawianie danych do użytkowników
-                        "INSERT INTO users (user_id, username, email, password, nr_tel, role_id, status_id, priority_id) VALUES " +
-                                "(1, 'Maciej Gawlak', 'maciej@example.com', 'haslo123', '123-456-789', 1, 1, 1), " +
-                                "(2, 'Jakub Pacholarz', 'jakub@example.com', 'haslo456', 123-456-789, 1, 2, 2), " +
-                                "(3, 'Kacper Jarosz', 'kacper@example.com', 'haslo789', 123-456-789, 1, 3, 3), " +
-                                "(4, 'Anna Helon', 'ah@ur.pl', '12345', 123-456-789, 3, 1, 3), " +
-                                "(5, 'Wojciech Jaminski', 'wj@ur.pl', '12345', 123-456-789, 1, 2, 1), " +
-                                "(6, 'Adam Nowak', 'an@ur.pl', '12345', 123-456-789, 1, 3, 2), " +
-                                "(13, 'Jakub Siebida', 'jakub@ur.pl', '123456', 123-456-789, 1, 1, 1), " +
-                                "(14, 'Jan Kowalski', 'jk@ur.pl', '54321', 123-456-789, 1, 1, 1), " +
-                                "(15, 'Martyna Kowalska', 'mk@ur.pl', 'haslo321', 123-456-789, 1, 1, 1), " +
-                                "(16, 'Dariusz Ped', 'dp@ur.pl', 'qwerty', 123-456-789, 1, 1, 1), " +
-                                "(17, 'Ula Rakowska', 'ur@ur.pl', '12343', 123-456-789, 1, 1, 1), " +
-                                "(18, 'Kacper Pe', 'kp@ur.pl', '1234', 123-456-789, 1, 1, 1), " +
-                                "(19, 'Radoslaw Wydra', 'rw@ur.pl', '12345', 123-456-789, 1, 1, 1), " +
-                                "(20, 'Martyna Jazwinska', 'mj@ue.wroc.pl', 'qwerty', 123-456-789, 1, 1, 1), " +
-                                "(21, 'a', 'a', 'a', 123-456-789, 1, 1, 1);",
+                        // Wprowadzenie danych do użytkowników
+                        "INSERT INTO users (imie, nazwisko, email, password, rola, approved) VALUES " +
+                                "('Maciej', 'Gawlak', 'm', 'm', 'pracownik', false), " +
+                                "('Jakub', 'Pacholarz', 'jakub@example.com', 'haslo456', 'pracownik', false), " +
+                                "('Kacper', 'Jarosz', 'k', 'k', 'kierownik', false), " +
+                                "('Anna', 'Helon', 'ah@ur.pl', '12345', 'kierownik', false), " +
+                                "('a','a', 'a', 'a', 'admin', true);",
 
-
-                        // Ograniczenia dla tabeli zadania
-                        "ALTER TABLE tasks " +
-                                "ADD CONSTRAINT tasks_ibfk_2 FOREIGN KEY (status_id) REFERENCES taskstatus (status_id);",
-
-                        // Ograniczenia dla tabeli użytkowników
-                        "ALTER TABLE users " +
-                                "ADD CONSTRAINT users_ibfk_1 FOREIGN KEY (role_id) REFERENCES roles (role_id), " +
-                                "ADD CONSTRAINT users_ibfk_2 FOREIGN KEY (status_id) REFERENCES taskstatus (status_id), " +
-                                "ADD CONSTRAINT users_ibfk_3 FOREIGN KEY (priority_id) REFERENCES taskpriority (priority_id);"
+                        // Stworzenie tabeli user_tasks
+                        "CREATE TABLE IF NOT EXISTS user_tasks (" +
+                                "user_id int(11), " +
+                                "task_id int(11), " +
+                                "start_date DATETIME, " +
+                                "end_date DATETIME, " +
+                                "status_id int(11), " +  // Include status_id column from taskstatus
+                                "PRIMARY KEY (user_id, task_id), " +
+                                "FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE, " +
+                                "FOREIGN KEY (task_id) REFERENCES tasks (task_id) ON DELETE CASCADE" +  // Remove FOREIGN KEY to status_id
+                                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;"
                 };
 
                 // Wykonanie deklaracji SQL
@@ -166,6 +110,62 @@ public class DatabaseInitializer {
                 System.out.println("Baza Danych i tabele zostały utworzone pomyślnie.");
             } else {
                 System.out.println("Baza danych '" + DB_NAME + "' już istnieje.");
+
+                // Używanie istniejącej bazy danych
+                String useDatabaseQuery = "USE " + DB_NAME;
+                statement.executeUpdate(useDatabaseQuery);
+
+                // Usuń tabelę pracownik
+                String dropPracownikTableQuery = "DROP TABLE IF EXISTS pracownik";
+                statement.executeUpdate(dropPracownikTableQuery);
+
+                // Dodaj kolumnę rola do tabeli users (jeśli jeszcze nie istnieje)
+                String addRolaColumnQuery = "ALTER TABLE users ADD COLUMN rola ENUM('pracownik', 'kierownik', 'admin') DEFAULT 'pracownik'";
+                try {
+                    statement.executeUpdate(addRolaColumnQuery);
+                } catch (SQLException e) {
+                    if (e.getErrorCode() != 1060) { // Error code 1060 means duplicate column name
+                        throw e;
+                    }
+                }
+
+                // Dodaj kolumnę total_time_spent do tabeli users (jeśli jeszcze nie istnieje)
+                String addTotalTimeSpentColumnQuery = "ALTER TABLE users ADD COLUMN total_time_spent INT DEFAULT 0";
+                try {
+                    statement.executeUpdate(addTotalTimeSpentColumnQuery);
+                } catch (SQLException e) {
+                    if (e.getErrorCode() != 1060) { // Error code 1060 means duplicate column name
+                        throw e;
+                    }
+                }
+
+                // Dodaj kolumnę approved do tabeli users (jeśli jeszcze nie istnieje)
+                String addApprovedColumnQuery = "ALTER TABLE users ADD COLUMN approved BOOLEAN DEFAULT false";
+                try {
+                    statement.executeUpdate(addApprovedColumnQuery);
+                } catch (SQLException e) {
+                    if (e.getErrorCode() != 1060) { // Error code 1060 means duplicate column name
+                        throw e;
+                    }
+                }
+
+                // Ustawienie użytkownika 'admin' jako zatwierdzony
+                String updateAdminApprovedQuery = "UPDATE users SET approved = true WHERE rola = 'admin'";
+                statement.executeUpdate(updateAdminApprovedQuery);
+
+                System.out.println("Tabela 'pracownik' została usunięta, a kolumny 'rola', 'total_time_spent' oraz 'approved' zostały dodane do tabeli 'users'.");
+
+                // Dodanie kolumn start_date i end_date do tabeli user_tasks (jeśli jeszcze nie istnieją)
+                String alterUserTasksTableQuery = "ALTER TABLE user_tasks " +
+                        "ADD COLUMN start_date DATE, " +
+                        "ADD COLUMN end_date DATE";
+                try {
+                    statement.executeUpdate(alterUserTasksTableQuery);
+                } catch (SQLException ex) {
+                    if (ex.getErrorCode() != 1060) { // Error code 1060 means duplicate column name
+                        throw ex;
+                    }
+                }
             }
 
         } catch (SQLException e) {
